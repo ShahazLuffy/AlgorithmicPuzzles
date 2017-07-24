@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/puzzle_list"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="لیست پازل ها" />
+        <item
+            android:id="@+id/top_rated_puzzle"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="پازل های برتر" />
+        <item
+            android:id="@+id/new_puzzles"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="پازل های جدید" />
+        <item
+            android:id="@+id/recommended_puzzle"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="پازل های پیشنهادی" />
+
+    </group>
+
+    <item android:title="درباره">
+        <menu>
+            <item
+                android:id="@+id/about_app"
+                android:icon="@drawable/ic_menu_share"
+                android:title="درباره برنامه" />
+            <item
+                android:id="@+id/about_us"
+                android:icon="@drawable/ic_menu_send"
+                android:title="درباره ما" />
+        </menu>
+    </item>
+
+</menu>
