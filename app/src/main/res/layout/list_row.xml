@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/list_selector"
+
+    android:orientation="horizontal"
+
+    android:padding="5dip" >
+    <!-- ListRow Left side Thumbnail image -->
+    <LinearLayout
+
+        android:id="@+id/thumbnail"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_marginRight="5dip"
+
+        android:padding="3dip"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <ImageView
+
+            android:id="@+id/list_image"
+
+            android:contentDescription="@string/app_name"
+
+            android:layout_width="60dip"
+
+            android:layout_height="60dip"
+
+            android:src="@mipmap/puzzle" />
+    </LinearLayout>
+    <!-- Rightend Arrow -->
+    <ImageView
+
+        android:id="@+id/imageArrow"
+
+        android:contentDescription="@string/app_name"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentRight="true"
+
+        android:layout_centerVertical="true"
+
+        android:src="@mipmap/arrow" />
+    <!-- City-->
+    <TextView
+
+        android:id="@+id/tvTitle"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_toRightOf="@+id/list_image"
+
+        android:layout_marginLeft="75dip"
+
+        android:layout_centerVertical="true"
+
+        android:paddingBottom ="10dip"
+
+        android:text="test"
+
+        android:textColor="#040404"
+
+        android:textSize="25dip"
+
+        android:textStyle="bold"
+
+        android:typeface="sans"
+        tools:ignore="NotSibling" />
+    <!-- Weather Information-->
+    <TextView
+
+        android:id="@+id/tvTrivia"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="wrap_content"
+
+        android:layout_below="@+id/tvTitle"
+
+        android:layout_alignLeft="@+id/tvTitle"
+
+        android:paddingTop="5dip"
+
+        android:layout_centerHorizontal="true"
+
+        android:text="test 2"
+
+        android:textColor="#343434"
+
+        android:textSize="15dip" />
+</RelativeLayout>

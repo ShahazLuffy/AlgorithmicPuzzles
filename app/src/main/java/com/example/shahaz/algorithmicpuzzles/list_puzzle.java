@@ -30,18 +30,10 @@ import android.widget.TextView;
 
 public class list_puzzle extends AppCompatActivity implements View.OnClickListener {
 
-    // Progress Dialog
     private ProgressDialog pDialog;
-
-    // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
-
-    ArrayList<HashMap<String, String>> productsList;
-
-    // url to get all products list
+    ArrayList<HashMap<String, String>> puzzleList;
     private static String url_all_products = "http://shahaz.000webhostapp.com/sik/get_all_products.php";
-
-    // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_PRODUCTS = "products";
     private static final String TAG_ID = "id";
@@ -56,11 +48,9 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
     private static final String TAG_RATE5 = "rate5";
     private static final String TAG_TITLE = "title";
     private static final String TAG_ICON = "icon";
-
-
-
-    // products JSONArray
     JSONArray products = null;
+    private ListInit listInit;
+    private  ListView list;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,11 +58,12 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.activity_list_puzzle);
 
         // Hashmap for ListView
-        productsList = new ArrayList<HashMap<String, String>>();
+        puzzleList = new ArrayList<HashMap<String, String>>();
 
         // Loading products in Background Thread
         new LoadAllProducts(this).execute();
-
+        //list= (ListView) findViewById(R.id.listAll);
+        //list.setAdapter(listInit);
 
 
 
@@ -139,6 +130,7 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
                         String id = c.getString(TAG_ID);
                         String hint = c.getString(TAG_HINT);
                         String intro = c.getString(TAG_INTRO);
+                        String notation = c.getString(TAG_NOTATION);
                         String hardness = c.getString(TAGE_HARDNESS);
                         String rate1 = c.getString(TAG_RATE1);
                         String rate2 = c.getString(TAG_RATE2);
@@ -154,11 +146,22 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
 
                         // adding each child node to HashMap key => value
                         map.put(TAG_ID, id);
+                        map.put(TAG_HINT, hint);
+                        map.put(TAG_INTRO, intro);
+                        map.put(TAG_NOTATION,notation);
+                        map.put(TAGE_HARDNESS, hardness);
+                        map.put(TAG_RATE1, rate1);
+                        map.put(TAG_RATE2, rate2);
+                        map.put(TAG_RATE3, rate3);
+                        map.put(TAG_RATE4, rate4);
+                        map.put(TAG_RATE5, rate5);
                         map.put(TAG_TITLE, title);
 
                         // adding HashList to ArrayList
-                        productsList.add(map);
+                        puzzleList.add(map);
                     }
+                    listInit=new ListInit(parent,puzzleList);
+
                 } else {
                    /* // no products found
                     // Launch Add New product Activity
@@ -185,12 +188,14 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
             // updating UI from Background Thread
             runOnUiThread(new Runnable() {
                 public void run() {
+                    list= (ListView) findViewById(R.id.listAll);
+                    list.setAdapter(listInit);
                     /**
                      * Updating parsed JSON data into ListView
                      * */
-                    for(int i=0; i <productsList.size(); i++){
-                        String t = productsList.get(i).get(TAG_TITLE);
-                        String idd = productsList.get(i).get(TAG_ID);
+                    /*for(int i=0; i <puzzleList.size(); i++){
+                        String t = puzzleList.get(i).get(TAG_TITLE);
+                        String idd = puzzleList.get(i).get(TAG_ID);
                         LinearLayout rl= (LinearLayout) findViewById(R.id.layoutAll);
                         Button b=new Button(parent);
                         b.setText(t);
@@ -202,7 +207,7 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
 
                         rl.addView(b);
 
-                    }
+                    }*/
                 }
             });
 
