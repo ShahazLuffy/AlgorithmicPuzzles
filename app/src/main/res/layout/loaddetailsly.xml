@@ -11,10 +11,9 @@
     tools:context="com.example.shahaz.algorithmicpuzzles.MainActivity">
 
     <ImageView
-
+        android:id="@+id/puzzle_image"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:src="@mipmap/obor_pol"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
     <Button
