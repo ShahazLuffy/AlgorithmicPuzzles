@@ -1,12 +1,19 @@
 package com.example.shahaz.algorithmicpuzzles;
 
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +35,8 @@ public class ListInit extends BaseAdapter {
     private static final String TAG_RATE4 = "rate4";
     private static final String TAG_RATE5 = "rate5";
     private static final String TAG_TITLE = "title";
+    private static final String TAG_TRIVIA = "trivia";
+    private static final String TAG_ICON = "icon";
 
     LayoutInflater inflater;
     ImageView thumb_image;
@@ -64,6 +73,7 @@ public class ListInit extends BaseAdapter {
         if(convertView==null){
 
             vi = inflater.inflate(R.layout.list_row, null);
+            vi.setId(Integer.parseInt(puzzleList.get(position).get(TAG_ID)));
             holder = new ViewHolder();
 
             holder.tvTitle = (TextView)vi.findViewById(R.id.tvTitle); // city name
@@ -78,14 +88,16 @@ public class ListInit extends BaseAdapter {
         // Setting all values in listview
 
         holder.tvTitle.setText(puzzleList.get(position).get(TAG_TITLE));
-        holder.tvTrivia.setText(puzzleList.get(position).get(TAG_INTRO));
-        /*
+        holder.tvTrivia.setText(puzzleList.get(position).get(TAG_TRIVIA));
+
         //Setting an image
-        String uri = "drawable/"+ weatherDataCollection.get(position).get(KEY_ICON);
-        int imageResource = vi.getContext().getApplicationContext().getResources().getIdentifier(uri, null, vi.getContext().getApplicationContext().getPackageName());
-        Drawable image = vi.getContext().getResources().getDrawable(imageResource);
-        holder.tvWeatherImage.setImageDrawable(image);
-        */
+        try {
+            URL url=new URL(puzzleList.get(position).get(TAG_ICON));
+            new DownloadImageTask(holder.ivIcon).execute(puzzleList.get(position).get(TAG_ICON));
+        } catch (Exception e) {
+            holder.tvTitle.setText(puzzleList.get(position).get(TAG_TITLE)+"1");
+            e.printStackTrace();
+        }
         return vi;
     }
 
@@ -97,6 +109,30 @@ public class ListInit extends BaseAdapter {
         TextView tvTitle;
         TextView tvTrivia;
         ImageView ivIcon;
+    }
+
+    private class DownloadImageTask extends AsyncTask<String,Void,Bitmap>{
+        ImageView iv;
+
+        public  DownloadImageTask(ImageView iv){
+            this.iv=iv;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            iv.setImageBitmap(result);
+        }
     }
 
 }

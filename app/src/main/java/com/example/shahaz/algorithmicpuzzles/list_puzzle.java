@@ -3,6 +3,7 @@ package com.example.shahaz.algorithmicpuzzles;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -47,6 +48,7 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
     private static final String TAG_RATE4 = "rate4";
     private static final String TAG_RATE5 = "rate5";
     private static final String TAG_TITLE = "title";
+    private static final String TAG_TRIVIA = "trivia";
     private static final String TAG_ICON = "icon";
     JSONArray products = null;
     private ListInit listInit;
@@ -59,7 +61,13 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
 
         // Hashmap for ListView
         puzzleList = new ArrayList<HashMap<String, String>>();
-
+        list= (ListView) findViewById(R.id.listAll);
+        list.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                onClick(view);
+            }
+        });
         // Loading products in Background Thread
         new LoadAllProducts(this).execute();
         //list= (ListView) findViewById(R.id.listAll);
@@ -138,7 +146,8 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
                         String rate4 = c.getString(TAG_RATE4);
                         String rate5 = c.getString(TAG_RATE5);
                         String title = c.getString(TAG_TITLE);
-                        //String icon = c.getString(TAG_ICON);
+                        String trivia = c.getString(TAG_TRIVIA);
+                        String icon = c.getString(TAG_ICON);
 
 
                         // creating new HashMap
@@ -156,7 +165,8 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
                         map.put(TAG_RATE4, rate4);
                         map.put(TAG_RATE5, rate5);
                         map.put(TAG_TITLE, title);
-
+                        map.put(TAG_TRIVIA,trivia);
+                        map.put(TAG_ICON,icon);
                         // adding HashList to ArrayList
                         puzzleList.add(map);
                     }
@@ -188,7 +198,7 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
             // updating UI from Background Thread
             runOnUiThread(new Runnable() {
                 public void run() {
-                    list= (ListView) findViewById(R.id.listAll);
+
                     list.setAdapter(listInit);
                     /**
                      * Updating parsed JSON data into ListView

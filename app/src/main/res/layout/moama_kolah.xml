@@ -13,7 +13,7 @@
     <ImageView
         android:layout_width="1000px"
         android:layout_height="500px"
-        android:src="@mipmap/puzzle"/>
+        android:src="@mipmap/puzzletemp"/>
     <Button
         android:id="@+id/moarefi_button"
         android:text="معرفی"
