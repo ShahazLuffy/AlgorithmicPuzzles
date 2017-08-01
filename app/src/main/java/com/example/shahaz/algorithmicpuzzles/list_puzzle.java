@@ -29,7 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-public class list_puzzle extends AppCompatActivity implements View.OnClickListener {
+public class list_puzzle extends AppCompatActivity{
 
     private ProgressDialog pDialog;
     JSONParser jParser = new JSONParser();
@@ -50,6 +50,7 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
     private static final String TAG_TITLE = "title";
     private static final String TAG_TRIVIA = "trivia";
     private static final String TAG_ICON = "icon";
+    private static final String TAG_ADDRESS= "imageAddress";
     JSONArray products = null;
     private ListInit listInit;
     private  ListView list;
@@ -65,7 +66,7 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
         list.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                onClick(view);
+                onClick(view,position);
             }
         });
         // Loading products in Background Thread
@@ -77,11 +78,11 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    @Override
-    public void onClick(View v) {
+    public void onClick(View v,int position) {
         Integer id = v.getId();
-        Intent intent = new Intent(this, obor_az_pol_act.class);
+        Intent intent = new Intent(this, LoadDetails.class);
         intent.putExtra("id", id);
+        intent.putExtra("address",puzzleList.get(position).get(TAG_ADDRESS));
         startActivity(intent);
     }
 
@@ -148,7 +149,7 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
                         String title = c.getString(TAG_TITLE);
                         String trivia = c.getString(TAG_TRIVIA);
                         String icon = c.getString(TAG_ICON);
-
+                        String addr = c.getString(TAG_ADDRESS);
 
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
@@ -167,19 +168,13 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
                         map.put(TAG_TITLE, title);
                         map.put(TAG_TRIVIA,trivia);
                         map.put(TAG_ICON,icon);
+                        map.put(TAG_ADDRESS,addr);
                         // adding HashList to ArrayList
                         puzzleList.add(map);
                     }
                     listInit=new ListInit(parent,puzzleList);
 
                 } else {
-                   /* // no products found
-                    // Launch Add New product Activity
-                    Intent i = new Intent(getApplicationContext(),
-                            NewProductActivity.class);
-                    // Closing all previous activities
-                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);*/
 
                 }
             } catch (JSONException e) {
@@ -203,21 +198,6 @@ public class list_puzzle extends AppCompatActivity implements View.OnClickListen
                     /**
                      * Updating parsed JSON data into ListView
                      * */
-                    /*for(int i=0; i <puzzleList.size(); i++){
-                        String t = puzzleList.get(i).get(TAG_TITLE);
-                        String idd = puzzleList.get(i).get(TAG_ID);
-                        LinearLayout rl= (LinearLayout) findViewById(R.id.layoutAll);
-                        Button b=new Button(parent);
-                        b.setText(t);
-                        b.setId(Integer.parseInt(idd));
-
-                        b.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT));
-                        b.setOnClickListener((View.OnClickListener) parent);
-
-                        rl.addView(b);
-
-                    }*/
                 }
             });
 

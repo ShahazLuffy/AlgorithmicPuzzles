@@ -25,7 +25,7 @@
         <activity android:name=".moama_kolah_act" />
         <activity android:name=".notationact" />
         <activity android:name=".moama_sekkeh_act" />
-        <activity android:name=".obor_az_pol_act" />
+        <activity android:name=".LoadDetails" />
         <activity android:name=".moama_chopan_act" />
         <activity android:name=".AllProductsActivity" />
         <activity android:name=".introact" />
