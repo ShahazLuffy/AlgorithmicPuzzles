@@ -56,8 +56,9 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="260dp" />
     <Button
+        android:id="@+id/btnGameTest"
         android:text="بازی"
-        android:layout_width="140px"
+        android:layout_width="wrap_content"
         android:layout_height="100px"
         android:layout_marginBottom="41dp"
         android:layout_above="@+id/rahnamaii_btn"
