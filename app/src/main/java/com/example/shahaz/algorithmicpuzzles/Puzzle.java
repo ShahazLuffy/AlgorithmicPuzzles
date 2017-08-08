@@ -54,12 +54,4 @@ public class Puzzle {
     public int getHardness(){return hardness;}
 
     public void setHardness(int hardness){this.hardness=hardness;}
-
-    public List<String> getTags(){
-        List<String> a=new ArrayList<>();
-        a.add(title);
-        a.add(new Integer(id).toString());
-        a.add("test");
-        return a;
-    }
 }

@@ -65,8 +65,8 @@ public class HorizontalRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder rawHolder, int position) {
         ItemViewHolder holder = (ItemViewHolder) rawHolder;
         holder.text.setText(mDataList.get(position).getTitle());//mDataList.get(position).getTitle());
-        holder.itemView.setTag(position);
-        new DownloadImageTask(holder.iv,mContext).execute(mDataList.get(position).getIcon());
+        holder.itemView.setId(position);
+        new DownloadImageTask(holder.iv,mContext).execute(mDataList.get(position).getIcon(),new Integer(position).toString());
     }
 
     @Override
@@ -88,7 +88,8 @@ public class HorizontalRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             String []name=urldisplay.split("/");
             Bitmap mIcon11 = null;
             try {
-                File f=new File(c.getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/"+id,name[name.length-1]);
+                File f=new File(c.getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/"+
+                        mDataList.get(Integer.parseInt(urls[1])).getId(),name[name.length-1]);
                 fullPath=f.getAbsolutePath();
                 if(f.exists()){
                     FileInputStream fis=new FileInputStream(f);
