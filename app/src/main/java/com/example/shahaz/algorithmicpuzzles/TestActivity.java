@@ -25,7 +25,10 @@ public class TestActivity extends AppCompatActivity {
         testRV.setLayoutManager(llm);
         Database db=new Database(this);
         List<List<Puzzle>> arr=new ArrayList<List<Puzzle>>();
-        arr.add(0,db.getPuzzles(null,true));
+      //arr.add(0, db.getPuzzles(null, true));
+        //arr.add(db.getPuzzlesCondition("category='math'",null,true));
+        arr.add(db.getPuzzlesCondition("category='riddle'",null,true));
+        arr.add(db.getPuzzlesCondition("category='logic'",null,true));
         adapter=new TestRVAdapter(this,arr);
         testRV.setAdapter(adapter);
         }
