@@ -20,7 +20,7 @@ public class TempActivity extends AppCompatActivity {
 
     public void deleteAll(View v){
         Database db=new Database(this);
-        //db.getPuzzles(null,true);
+        db.deleteAll();
     }
 
     public void openTest(View v){
