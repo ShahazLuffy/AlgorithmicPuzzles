@@ -6,4 +6,10 @@
     <string name="about_us">سلام</string>
     <string name="about_app">با سلام</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_test">TestActivity</string>
+    <string-array name="categories">
+        <item>Math</item>
+        <item>Logic</item>
+    </string-array>
+    <string name="title_activity_temp">TempActivity</string>
 </resources>

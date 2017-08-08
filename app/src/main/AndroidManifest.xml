@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".TempActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -32,7 +32,9 @@
         <activity android:name=".AllProductsActivity" />
         <activity android:name=".introact" />
         <activity android:name=".hintact" />
-        <activity android:name=".list_puzzle"></activity>
+        <activity android:name=".list_puzzle" />
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".TestActivity"/>
     </application>
 
 </manifest>

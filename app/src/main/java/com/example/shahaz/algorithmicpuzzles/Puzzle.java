@@ -1,5 +1,13 @@
 package com.example.shahaz.algorithmicpuzzles;
 
+import android.support.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 public class Puzzle {
     private int id=-1;
     private String hint = "hint";
@@ -47,4 +55,11 @@ public class Puzzle {
 
     public void setHardness(int hardness){this.hardness=hardness;}
 
+    public List<String> getTags(){
+        List<String> a=new ArrayList<>();
+        a.add(title);
+        a.add(new Integer(id).toString());
+        a.add("test");
+        return a;
+    }
 }
