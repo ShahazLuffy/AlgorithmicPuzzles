@@ -1,5 +1,6 @@
 package com.example.shahaz.algorithmicpuzzles;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -24,7 +25,7 @@ import okhttp3.Response;
 
 import static android.R.attr.id;
 
-public class HorizontalRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HorizontalRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  implements View.OnClickListener {
 
     private List<Puzzle> mDataList;
     private int mRowIndex = -1;
@@ -44,14 +45,18 @@ public class HorizontalRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         mRowIndex = index;
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
+    private class ItemViewHolder extends RecyclerView.ViewHolder{
         private TextView text;
         private ImageView iv;
         public ItemViewHolder(View itemView) {
             super(itemView);
             text = (TextView) itemView.findViewById(R.id.horizontal_item_text);
             iv= (ImageView) itemView.findViewById(R.id.horizontal_item_image);
+
+
         }
+
+
     }
 
     @Override
@@ -65,16 +70,28 @@ public class HorizontalRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder rawHolder, int position) {
         ItemViewHolder holder = (ItemViewHolder) rawHolder;
         holder.text.setText(mDataList.get(position).getTitle());//mDataList.get(position).getTitle());
-        holder.itemView.setId(position);
+        holder.itemView.setId(mDataList.get(position).getId());
+        holder.itemView.setOnClickListener(this);
         new DownloadImageTask(holder.iv,mContext).execute(mDataList.get(position).getIcon(),new Integer(position).toString());
     }
 
     @Override
+    public void onClick(View v) {
+        Integer id = v.getId();
+        Intent intent = new Intent(mContext, LoadDetails.class);
+        intent.putExtra("id", id);
+        mContext.startActivity(intent);
+    }
+    @Override
     public int getItemCount() {
-        return mDataList.size();
+        if ((mDataList!=null))
+            return mDataList.size();
+        else
+            return 0;
     }
 
-    private class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
+
+        private class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
         ImageView iv;
         Context c;
         String fullPath="";
