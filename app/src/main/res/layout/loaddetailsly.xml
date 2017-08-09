@@ -64,4 +64,11 @@
         android:layout_above="@+id/rahnamaii_btn"
         android:layout_centerHorizontal="true" />
 
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnGameTest"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
