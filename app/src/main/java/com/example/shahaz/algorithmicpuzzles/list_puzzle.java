@@ -69,11 +69,11 @@ public class list_puzzle extends AppCompatActivity{
         Integer id = puzzleList.get(position).getId();
         Intent intent = new Intent(this, LoadDetails.class);
         Database db=new Database(this);
-        if(db.getFullPuzzle(puzzleList.get(position).getId()).getId()==-1) {
-            db.addPuzzle(puzzleList.get(position));
-        }
+//        if(db.getFullPuzzle(puzzleList.get(position).getId()).getId()==-1) {
+//            db.addPuzzle(puzzleList.get(position));
+//        }
         intent.putExtra("id", id);
-        intent.putExtra("address",puzzleList.get(position).getImageAddress());
+       //intent.putExtra("address",puzzleList.get(position).getImageAddress());
         startActivity(intent);
     }
 

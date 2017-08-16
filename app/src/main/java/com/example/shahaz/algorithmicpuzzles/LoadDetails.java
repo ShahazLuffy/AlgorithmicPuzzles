@@ -50,6 +50,8 @@ public class LoadDetails extends AppCompatActivity {
     private static final String TAG_TRIVIA = "trivia";
     private static final String TAG_ICON = "icon";
     private static final String TAG_ADDRESS= "imageAddress";
+    private static final String TAG_CATEGORY = "category";
+    private static final String TAG_DATEADDED = "dateAdded";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -190,6 +192,8 @@ public class LoadDetails extends AppCompatActivity {
                     String trivia = c.getString(TAG_TRIVIA);
                     String icon = c.getString(TAG_ICON);
                     String addr = c.getString(TAG_ADDRESS);
+                    String cat = c.getString(TAG_CATEGORY);
+                    String dateadd = c.getString(TAG_DATEADDED);
 
                     // creating new HashMap
 
@@ -203,6 +207,8 @@ public class LoadDetails extends AppCompatActivity {
                     puzzle.setTrivia(trivia);
                     puzzle.setIcon(icon);
                     puzzle.setImageAddress(addr);
+                    puzzle.setDateAdded(dateadd);
+                    puzzle.setCategory(cat);
                     db.addPuzzle(puzzle);
                 } else {
                    /* // no products found

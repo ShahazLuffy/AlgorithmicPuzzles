@@ -1,5 +1,6 @@
 package com.example.shahaz.algorithmicpuzzles;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,11 +27,16 @@ public class TestActivity extends AppCompatActivity {
         Database db=new Database(this);
         List<List<Puzzle>> arr=new ArrayList<List<Puzzle>>();
       //arr.add(0, db.getPuzzles(null, true));
-        //arr.add(db.getPuzzlesCondition("category='math'",null,true));
+        arr.add(db.getPuzzlesCondition("category='math'",null,true));
         arr.add(db.getPuzzlesCondition("category='riddle'",null,true));
         arr.add(db.getPuzzlesCondition("category='logic'",null,true));
         adapter=new TestRVAdapter(this,arr);
         testRV.setAdapter(adapter);
         }
 
+
+    public void openNewPuzzle(View v) {
+        Intent intent = new Intent(this, list_puzzle.class);
+        startActivity(intent);
+    }
 }

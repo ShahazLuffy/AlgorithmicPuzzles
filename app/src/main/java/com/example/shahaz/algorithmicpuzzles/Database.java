@@ -41,6 +41,8 @@ public class Database extends SQLiteOpenHelper {
     private static final String COL_TRIVIA = "trivia";
     private static final String COL_ICON = "icon";
     private static final String COL_ADDRESS= "imageAddress";
+    private static final String COL_CATEGORY="category";
+    private static final String COL_DATEADDED="dateAdded";
     //LOCAL NAMES
     private static final String TABLE_PUZZLE = "puzzleInfoTB";
 
@@ -54,6 +56,8 @@ public class Database extends SQLiteOpenHelper {
             COL_TITLE + " text, " +
             COL_TRIVIA + " text, " +
             COL_ICON + " text, " +
+            COL_CATEGORY+ " text, " +
+            COL_DATEADDED + " text, "+
             COL_ADDRESS + " text);";
 
     public Database(Context context) {
@@ -94,6 +98,9 @@ public class Database extends SQLiteOpenHelper {
         cv.put(COL_TRIVIA, puzzle.getTrivia());
         cv.put(COL_ICON, puzzle.getIcon());
         cv.put(COL_ADDRESS, puzzle.getImageAddress());
+        cv.put(COL_DATEADDED,puzzle.getDateAdded());
+        cv.put(COL_CATEGORY, puzzle.getCategory());
+
         return cv;
     }
 
@@ -157,7 +164,7 @@ public class Database extends SQLiteOpenHelper {
                     TABLE_PUZZLE,
                     new String[]{
                             COL_ID,COL_HINT,COL_INTRO,COL_NOTATION,COL_HARDNESS,
-                            COL_TITLE,COL_TRIVIA,COL_ICON,COL_ADDRESS
+                            COL_TITLE,COL_TRIVIA,COL_ICON,COL_ADDRESS,COL_CATEGORY,COL_DATEADDED
                     },
 
                     condition, null, null, null, sortBy + (asc ? " ASC" : " DESC"));
@@ -181,6 +188,8 @@ public class Database extends SQLiteOpenHelper {
                     int colTrivia = cursor.getColumnIndexOrThrow(COL_TRIVIA);
                     int colIcon = cursor.getColumnIndexOrThrow(COL_ICON);
                     int colAddress = cursor.getColumnIndexOrThrow(COL_ADDRESS);
+                    int colCategory = cursor.getColumnIndexOrThrow(COL_CATEGORY);
+                    int colDateAdded = cursor.getColumnIndexOrThrow(COL_DATEADDED);
                     Puzzle puzzle;
                     do {
                         puzzle = new Puzzle();
@@ -193,6 +202,8 @@ public class Database extends SQLiteOpenHelper {
                         puzzle.setTrivia(cursor.getString(colTrivia));
                         puzzle.setIcon(cursor.getString(colIcon));
                         puzzle.setImageAddress(cursor.getString(colAddress));
+                        puzzle.setCategory(cursor.getString(colCategory));
+                        puzzle.setDateAdded(cursor.getString(colDateAdded));
                         puzzles.add(puzzle);
                     } while (cursor.moveToNext());
                 }

@@ -51,23 +51,23 @@ public class MainActivity extends AppCompatActivity
         //p.setTitle("this");
         //db.updatePuzzle(p);
         puzzleList=db.getPuzzles(null,true);
-            for(int i=0;i<puzzleList.size();i++){
-                Button b=new Button(this);
-                Puzzle p=puzzleList.get(i);
-                b.setText(p.getTitle());
-                b.setId(p.getId());
-                ConstraintLayout c=(ConstraintLayout)findViewById(R.id.contentMain);
-                b.setX(10);
-                b.setId(i);
-                b.setY(i*100+50);
-                b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        puzzleShow(v.getId());
-                    }
-                });
-                c.addView(b);
-            }
+//            for(int i=0;i<puzzleList.size();i++){
+//                Button b=new Button(this);
+//                Puzzle p=puzzleList.get(i);
+//                b.setText(p.getTitle());
+//                b.setId(p.getId());
+//                ConstraintLayout c=(ConstraintLayout)findViewById(R.id.contentMain);
+//                b.setX(10);
+//                b.setId(i);
+//                b.setY(i*100+50);
+//                b.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        puzzleShow(v.getId());
+//                    }
+//                });
+//                c.addView(b);
+//            }
         // str="";
         //if(arr!=null)
         //    for(int i=0;i<arr.size();i++)
@@ -120,12 +120,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.puzzle_list) {
-            Intent intent = new Intent(this, list_puzzle.class);
+            Intent intent = new Intent(this, TestActivity.class);
             startActivity(intent);
         } else if (id == R.id.top_rated_puzzle) {
 
         } else if (id == R.id.new_puzzles) {
-
 
         } else if (id == R.id.recommended_puzzle) {
 

@@ -18,6 +18,8 @@ public class Puzzle {
     private String icon = "icon";
     private String imageAddress = "imageAddress";
     private int hardness;
+    private String category = "category";
+    private String dateAdded="1998-12-12" ;
 
     public int getId(){return id;}
 
@@ -54,4 +56,10 @@ public class Puzzle {
     public int getHardness(){return hardness;}
 
     public void setHardness(int hardness){this.hardness=hardness;}
+
+    public String getCategory(){return category;}
+    public void setCategory(String category){this.category=category;}
+
+    public String  getDateAdded(){return dateAdded;}
+    public void setDateAdded(String dateAdded){this.dateAdded=dateAdded;}
 }

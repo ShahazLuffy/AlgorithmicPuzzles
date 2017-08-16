@@ -18,18 +18,18 @@ public class TempActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
-    public void deleteAll(View v){
-        Database db=new Database(this);
-        db.deleteAll();
-    }
-
-    public void openTest(View v){
-        Intent intent=new Intent(this,TestActivity.class);
-        startActivity(intent);
-    }
-
-    public void openMain(View v){
-        Intent intent=new Intent(this,MainActivity.class);
-        startActivity(intent);
-    }
+//    public void deleteAll(View v){
+//        Database db=new Database(this);
+//        db.deleteAll();
+//    }
+//
+//    public void openTest(View v){
+//        Intent intent=new Intent(this,TestActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void openMain(View v){
+//        Intent intent=new Intent(this,MainActivity.class);
+//        startActivity(intent);
+    //}
 }

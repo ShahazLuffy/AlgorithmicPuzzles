@@ -5,15 +5,15 @@
         <item
             android:id="@+id/puzzle_list"
             android:icon="@drawable/ic_menu_camera"
-            android:title="لیست پازل ها" />
+            android:title="پازل های من" />
         <item
             android:id="@+id/top_rated_puzzle"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="پازل های برتر" />
+            android:title="پازل های جدید" />
         <item
             android:id="@+id/new_puzzles"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="پازل های جدید" />
+            android:title="پازل های برتر" />
         <item
             android:id="@+id/recommended_puzzle"
             android:icon="@drawable/ic_menu_manage"
