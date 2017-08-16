@@ -1,5 +1,9 @@
 package com.example.shahaz.algorithmicpuzzles;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -14,6 +18,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,35 +27,29 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ListInit extends BaseAdapter {
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
-    // XML node keys
-    private static final String TAG_ID = "id";
-    private static final String TAG_HINT = "hint";
-    private static final String TAG_INTRO = "intro";
-    private static final String TAG_NOTATION = "notation";
-    private static final String TAGE_HARDNESS = "hardness";
-    private static final String TAG_RATE1 = "rate1";
-    private static final String TAG_RATE2 = "rate2";
-    private static final String TAG_RATE3 = "rate3";
-    private static final String TAG_RATE4 = "rate4";
-    private static final String TAG_RATE5 = "rate5";
-    private static final String TAG_TITLE = "title";
-    private static final String TAG_TRIVIA = "trivia";
-    private static final String TAG_ICON = "icon";
+public class ListInit extends BaseAdapter {
 
     LayoutInflater inflater;
     ImageView thumb_image;
-    List<HashMap<String,String>> puzzleList;
+    ArrayList<Puzzle> puzzleList;
+    boolean[] isLoaded;
     ViewHolder holder;
+    Context context;
     public ListInit() {
         // TODO Auto-generated constructor stub
     }
 
-    public ListInit(Activity act, List<HashMap<String,String>> map) {
-
+    public ListInit(Activity act, ArrayList<Puzzle> map) {
         this.puzzleList = map;
-
+        isLoaded=new boolean[map.size()];
+            for(boolean b:isLoaded)
+                b=false;
+        this.context=act;
         inflater = (LayoutInflater) act
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -71,11 +71,9 @@ public class ListInit extends BaseAdapter {
 
         View vi=convertView;
         if(convertView==null){
-
             vi = inflater.inflate(R.layout.list_row, null);
-            vi.setId(Integer.parseInt(puzzleList.get(position).get(TAG_ID)));
+            vi.setId(puzzleList.get(position).getId());
             holder = new ViewHolder();
-
             holder.tvTitle = (TextView)vi.findViewById(R.id.tvTitle); // city name
             holder.tvTrivia = (TextView)vi.findViewById(R.id.tvTrivia); // city weather overview
             holder.ivIcon =(ImageView)vi.findViewById(R.id.list_image); // thumb image
@@ -87,15 +85,15 @@ public class ListInit extends BaseAdapter {
 
         // Setting all values in listview
 
-        holder.tvTitle.setText(puzzleList.get(position).get(TAG_TITLE));
-        holder.tvTrivia.setText(puzzleList.get(position).get(TAG_TRIVIA));
+        holder.tvTitle.setText(puzzleList.get(position).getTitle());
+        holder.tvTrivia.setText(puzzleList.get(position).getTrivia());
 
         //Setting an image
         try {
-            URL url=new URL(puzzleList.get(position).get(TAG_ICON));
-            new DownloadImageTask(holder.ivIcon).execute(puzzleList.get(position).get(TAG_ICON));
+            new DownloadImageTask(holder.ivIcon,holder.tvTrivia,position).execute(puzzleList.get(position).getIcon(),
+                    new Integer(puzzleList.get(position).getId()).toString());
         } catch (Exception e) {
-            holder.tvTitle.setText(puzzleList.get(position).get(TAG_TITLE)+"1");
+            holder.tvTitle.setText(puzzleList.get(position).getTitle()+"1");
             e.printStackTrace();
         }
         return vi;
@@ -113,19 +111,52 @@ public class ListInit extends BaseAdapter {
 
     private class DownloadImageTask extends AsyncTask<String,Void,Bitmap>{
         ImageView iv;
-
-        public  DownloadImageTask(ImageView iv){
+        TextView tr;
+        String mm="temp";
+        int position=-1;
+        public  DownloadImageTask(ImageView iv,TextView trivia,int pos){
             this.iv=iv;
+            tr=trivia;
+            position=pos;
         }
 
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
+            String []name=urldisplay.split("/");
             Bitmap mIcon11 = null;
             try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
+                File f=new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)+"/"+urls[1],name[name.length-1]);
+                if(f.exists()&&isLoaded[position]==false){
+                    FileInputStream fis=new FileInputStream(f);
+                    mIcon11 = BitmapFactory.decodeStream(fis);
+                }else {
+                    f.getParentFile().mkdirs();
+                    isLoaded[position]=true;
+                    //f.createNewFile();
+                    OkHttpClient client = new OkHttpClient();
+                    Request r = new Request.Builder().url(urldisplay).build();
+                    Response res = client.newCall(r).execute();
+                    BufferedInputStream input = new BufferedInputStream(res.body().byteStream());
+                    mIcon11 = BitmapFactory.decodeStream(input);
+                    FileOutputStream output = new FileOutputStream(f);
+                    mIcon11.compress(Bitmap.CompressFormat.PNG,100,output);
+                    /*byte[] data = new byte[1024];
+                    long total = 0;
+                    int count=0;
+                    while ((count = input.read(data)) != -1) {
+                        total += count;
+                        output.write(data, 0, count);
+                    }
+*/
+                    output.flush();
+                    output.close();
+                    input.close();
+
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
+                mm=e.getMessage();
             }
             return mIcon11;
         }
@@ -134,5 +165,6 @@ public class ListInit extends BaseAdapter {
             iv.setImageBitmap(result);
         }
     }
+
 
 }

@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.shahaz.algorithmicpuzzles.obor_az_pol_act">
+    tools:context="com.example.shahaz.algorithmicpuzzles.LoadDetails">
 
 </android.support.constraint.ConstraintLayout>

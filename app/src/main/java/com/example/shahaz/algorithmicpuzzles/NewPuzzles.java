@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,7 +32,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LoadDetails extends AppCompatActivity {
+public class NewPuzzles extends AppCompatActivity {
     private int id;
     Database db;
     Puzzle puzzle;
@@ -39,6 +40,7 @@ public class LoadDetails extends AppCompatActivity {
     JSONParser jParser = new JSONParser();
 
     private static String url_all_products = "http://shahaz.000webhostapp.com/sik/get_product_details.php";
+    private static String url_update_product = "https://shahaz.000webhostapp.com/sik/update_rate.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_PRODUCTS = "products";
     private static final String TAG_ID = "id";
@@ -50,22 +52,39 @@ public class LoadDetails extends AppCompatActivity {
     private static final String TAG_TRIVIA = "trivia";
     private static final String TAG_ICON = "icon";
     private static final String TAG_ADDRESS= "imageAddress";
+    private static final String TAG_CATEGORY="category";
+    private static final String TAG_DATEADDED= "dateAdded";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.loaddetailsly);
+        setContentView(R.layout.activity_new_puzzles);
         Intent intent = getIntent();
         Integer d= intent.getIntExtra("id", -1);
         id=d.intValue();
         db=new Database(this);
         puzzle=db.getFullPuzzle(id);
         if(puzzle.getId()!=-1){
-            new DownloadImageTask((ImageView) findViewById(R.id.puzzle_image),LoadDetails.this).execute(puzzle.getImageAddress());
+            new DownloadImageTask((ImageView) findViewById(R.id.puzzle_image),NewPuzzles.this).execute(puzzle.getImageAddress());
         }else{
-            new LoadPuzzle().execute(new Integer(id).toString());
+            new NewPuzzle().execute(new Integer(id).toString());
         }
         //((Button) findViewById(R.id.btnGameTest)).setText(intent.getStringExtra("address"));
         //new DownloadImageTask((ImageView) findViewById(R.id.puzzle_image),this).execute(intent.getStringExtra("address"));
+
+//        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+//        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//
+//            @Override
+//            public void onRatingChanged(RatingBar arg0, float rateValue, boolean arg2) {
+//                // TODO Auto-generated method stub
+//                Log.d("Rating", "your selected value is :"+rateValue);
+//                updateTable((int)rateValue);
+//            }
+//        });
+    }
+
+    public void updateTable(int rate){
+        new UpdateRate().execute(new Integer(rate).toString());
     }
 
     public void moareficlick(View v) {
@@ -132,10 +151,10 @@ public class LoadDetails extends AppCompatActivity {
         }
     }
 
-    class LoadPuzzle extends AsyncTask<String, String, String> {
+    class NewPuzzle extends AsyncTask<String, String, String> {
         private AppCompatActivity parent;
 
-        public LoadPuzzle(){
+        public NewPuzzle(){
 
         }
 
@@ -145,7 +164,7 @@ public class LoadDetails extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pDialog = new ProgressDialog(LoadDetails.this);
+            pDialog = new ProgressDialog(NewPuzzles.this);
             pDialog.setMessage("Loading puzzle. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(false);
@@ -190,6 +209,8 @@ public class LoadDetails extends AppCompatActivity {
                     String trivia = c.getString(TAG_TRIVIA);
                     String icon = c.getString(TAG_ICON);
                     String addr = c.getString(TAG_ADDRESS);
+                    String cat = c.getString(TAG_CATEGORY);
+                    String dateadded = c.getString(TAG_DATEADDED);
 
                     // creating new HashMap
 
@@ -203,6 +224,8 @@ public class LoadDetails extends AppCompatActivity {
                     puzzle.setTrivia(trivia);
                     puzzle.setIcon(icon);
                     puzzle.setImageAddress(addr);
+                    puzzle.setCategory(cat);
+                    puzzle.setDateAdded(dateadded);
                     db.addPuzzle(puzzle);
                 } else {
                    /* // no products found
@@ -221,6 +244,8 @@ public class LoadDetails extends AppCompatActivity {
             return null;
         }
 
+
+
         /**
          * After completing background task Dismiss the progress dialog
          * **/
@@ -230,12 +255,42 @@ public class LoadDetails extends AppCompatActivity {
             // updating UI from Background Thread
             runOnUiThread(new Runnable() {
                 public void run() {
-                    new DownloadImageTask((ImageView) findViewById(R.id.puzzle_image),LoadDetails.this).execute(puzzle.getImageAddress());
+//                    new DownloadImageTask((ImageView) findViewById(R.id.puzzle_image),NewPuzzles.this).execute(puzzle.getImageAddress());
+//                    Button gametest = (Button) findViewById(R.id.btnGameTest);
+//                    gametest.setText(puzzle.getDateAdded());
+//
+
                     /**
                      * Updating parsed JSON data into ListView
                      * */
                 }
             });
+
+        }
+
+    }
+
+    class UpdateRate extends AsyncTask<String, String, String> {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // getting JSON string from URL
+            params.add(new BasicNameValuePair("id", new Integer(id).toString()));
+            params.add(new BasicNameValuePair("rate",  args[0]));
+            JSONObject json = jParser.makeHttpRequest(url_update_product, "GET", params);
+            try {
+                int success = json.getInt("success");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String file_url) {
 
         }
 

@@ -21,6 +21,8 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
+import okhttp3.OkHttpClient;
+
 public class JSONParser {
 
     static InputStream is = null;
