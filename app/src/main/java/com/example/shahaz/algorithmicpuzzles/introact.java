@@ -2,9 +2,11 @@ package com.example.shahaz.algorithmicpuzzles;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -25,6 +27,12 @@ public class introact extends AppCompatActivity {
         setContentView(R.layout.introactlay);
         Intent intent = getIntent();
         String intro= intent.getStringExtra("intro");
-        ((TextView) findViewById(R.id.intoractlaytv)).setText(intro);
+        TextView introTV=((TextView) findViewById(R.id.intoractlaytv));
+        introTV.setText(intro);
+        Typeface face=Typeface.createFromAsset(getAssets(),"font/byekan.ttf");
+        introTV.setTypeface(face);
+        introTV.setTextSize(22);
+        introTV.setMovementMethod(new ScrollingMovementMethod());
+
     }
 }
