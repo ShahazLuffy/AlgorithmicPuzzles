@@ -21,8 +21,8 @@
             android:id="@+id/horizontal_list"
             android:layout_width="match_parent"
             android:layout_marginTop="5dp"
-            android:layout_height="50dp"
-            android:background="#00f"
+            android:layout_height="120dp"
+            android:background="@mipmap/tile"
             android:visibility="visible"/>
 
     </LinearLayout>

@@ -3,13 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/intoractlaytv"
-        android:maxLines="15"
-        android:text="ASJABFAFF"
-        android:background="@mipmap/lightbulb"
-        android:scrollbars="vertical"
+    <include
+        layout="@layout/globaltextview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>

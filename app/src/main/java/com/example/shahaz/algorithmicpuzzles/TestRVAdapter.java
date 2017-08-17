@@ -16,7 +16,7 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.SimpleView
     private final Context mContext;
     private static List<List<Puzzle>> mData;
     private static RecyclerView horizontalList;
-
+    private String[] categories={"math","logic","riddle"};
     public class SimpleViewHolder extends RecyclerView.ViewHolder {
         public final TextView title;
         private HorizontalRVAdapter horizontalAdapter;
@@ -46,10 +46,12 @@ public class TestRVAdapter extends RecyclerView.Adapter<TestRVAdapter.SimpleView
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
+        holder.title.setText(categories[position]);
         if(mData.get(position).size()!=0) {
-            holder.title.setText(mData.get(position).get(0).getCategory());
             holder.horizontalAdapter.setData(mData.get(position)); // List of Strings
             holder.horizontalAdapter.setRowIndex(position);
+        }else{
+
         }
     }
 
