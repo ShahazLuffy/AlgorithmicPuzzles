@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -26,12 +27,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class LoadDetails extends AppCompatActivity {
+public class LoadDetails extends AppCompatActivity implements RatingBar.OnRatingBarChangeListener{
     private int id;
     Database db;
     Puzzle puzzle;
@@ -39,6 +39,7 @@ public class LoadDetails extends AppCompatActivity {
     JSONParser jParser = new JSONParser();
 
     private static String url_all_products = "http://shahaz.000webhostapp.com/sik/get_product_details.php";
+    private static String url_update_product = "https://shahaz.000webhostapp.com/sik/update_rate.php";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_PRODUCTS = "products";
     private static final String TAG_ID = "id";
@@ -65,9 +66,15 @@ public class LoadDetails extends AppCompatActivity {
             new DownloadImageTask((ImageView) findViewById(R.id.puzzle_image),LoadDetails.this).execute(puzzle.getImageAddress());
         }else{
             new LoadPuzzle().execute(new Integer(id).toString());
+
         }
-        //((Button) findViewById(R.id.btnGameTest)).setText(intent.getStringExtra("address"));
-        //new DownloadImageTask((ImageView) findViewById(R.id.puzzle_image),this).execute(intent.getStringExtra("address"));
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.ratingBar);
+        ratingBar.setOnRatingBarChangeListener(this);
+
+    }
+    public void updateTable(int rate){
+
+        new UpdateRate().execute(new Integer(rate).toString());
     }
 
     public void moareficlick(View v) {
@@ -86,6 +93,12 @@ public class LoadDetails extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+        updateTable((int)rating);
+    }
+
+
     private class DownloadImageTask extends AsyncTask<String,Void,Bitmap> {
         ImageView iv;
         AppCompatActivity parent;
@@ -94,6 +107,7 @@ public class LoadDetails extends AppCompatActivity {
             this.iv=iv;
             parent=p;
         }
+
 
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
@@ -164,8 +178,11 @@ public class LoadDetails extends AppCompatActivity {
             params.add(new BasicNameValuePair("id", new Integer(id).toString()));
             JSONObject json = jParser.makeHttpRequest(url_all_products, "GET", params);
 
+
             // Check your log cat for JSON reponse
             Log.d("Puzzle: ", json.toString());
+
+
 
             try {
 
@@ -240,6 +257,10 @@ public class LoadDetails extends AppCompatActivity {
                     /**
                      * Updating parsed JSON data into ListView
                      * */
+
+
+
+
                 }
             });
 
@@ -247,4 +268,29 @@ public class LoadDetails extends AppCompatActivity {
 
     }
 
+    class UpdateRate extends AsyncTask<String, String, String> {
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // getting JSON string from URL
+            params.add(new BasicNameValuePair("id", new Integer(id).toString()));
+            params.add(new BasicNameValuePair("rate",  args[0]));
+            JSONObject json = jParser.makeHttpRequest(url_update_product, "GET", params);
+            try {
+                int success = json.getInt("success");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        protected void onPostExecute(String file_url) {
+
+        }
+
+    }
 }
